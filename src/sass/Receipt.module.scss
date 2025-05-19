@@ -1,0 +1,141 @@
+@use '../sass/global.scss';
+
+.appContainer {
+    background-color: global.$secondary-color;
+    background-image: none;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 375px;
+    margin: 0 auto;
+    box-sizing: border-box; 
+    position: relative;
+
+    .receiptContainer {
+        color: global.$snow-color;
+        margin: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .receiptSection {
+            background-color: global.$ash-color;
+            width: 100%;
+            border-radius: .2rem;
+            padding-bottom: 120px;
+
+            .box {
+                width: 100%;
+                text-align: center;
+    
+                img {
+                    width: 15%;
+                    margin-top: 1.5rem;
+                    display: inline-block;
+                }
+            }
+    
+            .info {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                position: relative;
+    
+                hgroup {
+                    h3, p {
+                        color: global.$dark-grey;
+                        text-align: center;
+                    }
+                }
+                
+                .menuItemsWrapper {
+                    margin: 0 1rem;
+                    flex-grow: 1;
+                    overflow-y: auto;
+            
+                    .menuItemRow {
+                        color: global.$dark-grey;
+                        display: flex;
+                        justify-content: space-between;
+                    }
+        
+                    .menuItemRow h5:first-child::after {
+                        content: '';
+                        flex-grow: 1;
+                        border-bottom: 1px dotted global.$dark-grey;
+                    }
+        
+                    .menuItemRow h5:second-child {
+                        border-bottom: 2px dotted global.$dark-grey;
+                        padding-right: 10px;
+                    }
+        
+                    .divider {
+                        flex-grow: 1;
+                        border-bottom: 2px dotted global.$dark-grey;
+                        margin: 0 10px;
+                    }
+                }
+        
+                .totalLine {
+                    position: absolute;
+                    bottom: 0;
+                    flex-shrink: 0; // Förhindra att totalraden krymper
+                    background-color: global.$shade-color;
+                    opacity: 0.8;
+                    width: 100%; // Säkerställ att den tar hela bredden inuti .info
+                    display: flex; // Behåll flex för att arrangera innehållet i totalraden
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1rem 1.5rem;
+                    border-radius: .2rem;
+                }
+    
+                h2 {
+                    text-align: center;
+                    line-height: 120%;
+                }
+            }
+        }
+
+        .buttons {
+            position: fixed;
+            bottom: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 375px; 
+            max-width: 100%; 
+            padding: 1rem; 
+            box-sizing: border-box; 
+            background-color: global.$secondary-color; 
+            z-index: 10; 
+
+            display: flex; 
+            flex-direction: column;
+
+            .orderBtn {
+                width: 100%;
+                background-color: global.$dark-grey;
+                color: global.$snow-color;
+                padding: 1.5rem;
+                border-radius: .2rem;
+                margin-bottom: 1rem;
+                border: none;
+                visibility: hidden;
+            }
+
+            .receiptBtn {
+                width: 100%;
+                background-color: transparent;
+                color: global.$snow-color;
+                padding: 1.5rem;
+                border-radius: .2rem;
+                border-color: global.$shade-color;
+                margin-bottom: 0;
+            }
+        }
+    }   
+}
+

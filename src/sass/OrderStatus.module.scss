@@ -1,0 +1,79 @@
+@use '../sass/global.scss';
+
+.appContainer {
+    background-color: global.$secondary-color;
+    background-image: none;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 375px;
+    margin: 0 auto;
+    box-sizing: border-box; 
+    overflow-y: auto;
+
+    .orderStatContainer {
+        color: global.$snow-color;
+        margin: 0 1rem;
+        
+        article {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .box {
+                text-align: center;
+
+                img {
+                    width: 100%;
+                    display: inline-block;
+                }
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 2rem;
+
+                h2 {
+                    text-align: center;
+                    line-height: 120%;
+                }
+            }
+
+            .buttons {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin: 0 1rem;
+
+                .orderBtn {
+                    width: 100%;
+                    background-color: global.$dark-grey;
+                    color: global.$snow-color;
+                    padding: 1.5rem;
+                    border-radius: .2rem;
+                    margin-bottom: 1rem;
+                    border: none;
+                }
+
+                .receiptBtn {
+                    width: 100%;
+                    background-color: transparent;
+                    color: global.$snow-color;
+                    padding: 1.5rem;
+                    border-radius: .2rem;
+                    border-color: global.$shade-color;
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+    }   
+}
+

@@ -1,0 +1,121 @@
+@use '../sass/global.scss';
+
+.appContainer {
+    background-color: global.$prime-color;
+    background-image: url('../assets/img/mmm\ 1.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 375px;
+    margin: 0 auto;
+    box-sizing: border-box; 
+    overflow-y: auto;
+    
+    .menuContainer {
+        background-color: global.$secondary-color;
+        margin: 1.1rem;
+        padding: 1rem;
+        border-radius: .5rem;
+        box-sizing: border-box;
+        color: global.$snow-color;
+
+        h1 {
+            margin: 2rem 0;
+        }
+
+        .item {
+            margin: 1rem 0;
+
+            .btnContainer {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+    
+                .btn {
+                    background-color: global.$shade-color;
+                    color: global.$snow-color;
+                    font-weight: global.$font-weight-regular;
+                    font-size: 12px;
+                    line-height: 100%;
+                    width: 94px;
+                    height: 48px;
+                    margin-top: .5rem;
+                    border: none;
+                    border-radius: 3px;
+
+                    p {
+                        margin-top: 0;
+                    }
+                }
+            }
+
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: .5rem;
+            }
+
+            h3 {
+                margin-bottom: 0;
+            }
+
+            .wontonItemContainer {
+                display: flex;
+                flex-direction: column;
+            }
+
+            h5 {
+                align-self: center;
+                margin-top: 0;
+            }
+        
+            .menuList {
+                display: flex;
+                flex-direction: column; 
+                margin: .5rem 0;
+                cursor: pointer;
+            }
+            
+            .menuItemRow { 
+                background-color: global.$snow-color;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .menuItemRow h5:first-child::after {
+                content: '';
+                flex-grow: 1; 
+                border-bottom: 1px dotted global.$snow-color;
+            }
+
+            .menuItemRow h5:second-child {
+                border-bottom: 1 dotted global.$snow-color;
+                padding-right: 10px;
+            }
+
+            .divider {
+                flex-grow: 1;
+                border-bottom: 2px dotted global.$snow-color;
+                margin: 1rem 5px 0;
+            }
+
+            .price {
+                padding-right: 10px;
+            }
+        
+            p {
+                font-size: 0.8rem;
+                margin-top: .5rem;
+                width: 100%;
+            }
+        
+            div {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+    }
+}

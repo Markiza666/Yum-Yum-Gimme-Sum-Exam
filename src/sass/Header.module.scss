@@ -1,0 +1,95 @@
+@use '../sass/global.scss';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+    .logotyp {
+        color: global.$snow-color;
+        width: 4rem;
+        height: 4rem;
+        cursor: pointer;
+    }
+
+    nav {
+        transition: 0.3s ease;
+        position: fixed;
+        margin: 0 auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: global.$secondary-color;
+        z-index: 1;
+        height: 100vh;
+        width: 375px;
+        overflow: auto;
+
+        ul {
+            list-style: none;
+            margin-top: 10rem;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 1rem;
+
+            li {
+                font-size: 2rem;
+
+                a {
+                    text-decoration: none;
+                    color: global.$snow-color;
+                }
+            }
+        }
+
+        .closeButton {
+            margin: 2rem 0 0 2rem;
+            color: global.$snow-color;
+            background:none;
+            border: none;       
+        }
+    }
+
+    .cart {
+        background-color: global.$snow-color;
+        width: 4rem;
+        height: 4rem;
+        border-radius: .2rem;
+        position: relative;
+        cursor: pointer;
+        display: flex; 
+        justify-content: center;
+        align-items: center;
+        visibility: visible;
+
+        .cartIcon {
+            padding: 1rem;
+        }
+
+        .cartCount {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: red;
+            color: global.$snow-color;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: global.$font-weight-bold;
+            min-width: 24px; // Säkerställer att cirkeln är tillräckligt stor även för ensiffriga tal
+            text-align: center;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .cartHidden {
+        visibility: hidden;
+    }
+}
