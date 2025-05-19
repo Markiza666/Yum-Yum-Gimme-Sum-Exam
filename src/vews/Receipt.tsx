@@ -6,7 +6,7 @@ import logoRed from '../assets/img/logoRed.svg';
 export function Receipt() {
     return (
         <div className={styles.appContainer}>
-            <Header hideVarukorg={true} />
+            <Header hideVarukorg={true} onCartClick={() => {}} />
             <main className={styles.receiptContainer}>
                 <section className={styles.receiptSection}>
                     <figure className={styles.box}>

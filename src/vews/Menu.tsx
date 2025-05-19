@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { RootState, AppDispatch } from '../app/store';
 import { WontonItem, MenuItem, WholeMenu } from '../utils/interfaces';
 import WontonSection from '../components/menu/WontonSection';
 import MenuItemList from '../components/menu/MenuItemList';

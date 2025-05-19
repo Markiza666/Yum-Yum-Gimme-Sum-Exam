@@ -3,6 +3,7 @@ import './sass/global.scss';
 import { ApiComArgs, ApiKey, getKey, apiCom } from './service/api/api';
 import { VarContext } from './service/context/VarContext';
 import { Outlet } from 'react-router-dom';
+import Menu from './vews/Menu';
 
 export const tenantName: string = 'Yum';
 
@@ -61,6 +62,7 @@ function App() {
     <VarContext.Provider value={[useableApiKey, tenantId]}>
       <div>
         <Outlet />
+        <Menu />
       </div>
     </VarContext.Provider>
   )

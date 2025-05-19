@@ -6,7 +6,7 @@ import { CustomButton } from '../components/button/CustomButton';
 export function OrderStatus() {
     return (
         <div className={styles.appContainer}>
-            <Header hideVarukorg={true} />
+            <Header hideVarukorg={true} onCartClick={() => {}} />
             <main className={styles.orderStatContainer}>
                 <article>
                     <figure className={styles.box}>

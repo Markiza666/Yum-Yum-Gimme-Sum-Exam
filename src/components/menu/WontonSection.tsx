@@ -11,7 +11,7 @@ function WontonSection({ wontonMenu }: WontonSectionProps) {
     const dispatch = useDispatch(); 
 
     const handleItemClick = (item: WontonItem) => {
-        dispatch(addItem(item)); // Dispatcha addItem action med varan som payload
+        dispatch(addItem(item)); 
         console.log(`Lade till "${item.name}" (Wonton) i varukorgen genom att klicka på objektet`);
     };
 
@@ -39,7 +39,7 @@ function WontonSection({ wontonMenu }: WontonSectionProps) {
                     <div className="menuItemRow">
                         <h5>{item.name}</h5>
                         <span className={styles.divider}></span>
-                        <h5>{item.price} kr</h5>
+                        <h5>{item.price} SEK</h5>
                     </div>
                     <p>{item.ingredients}</p>
                     </hgroup>

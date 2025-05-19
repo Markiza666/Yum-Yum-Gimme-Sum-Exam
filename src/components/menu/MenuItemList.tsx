@@ -11,13 +11,13 @@ interface MenuItemListProps {
 }
 
 function MenuItemList({ title, items, price }: MenuItemListProps) {
-    const dispatch = useDispatch(); // Hämta dispatch funktionen
+    const dispatch = useDispatch(); 
     const handleAddItem = (item: MenuItem) => {
-        dispatch(addItem(item)); // Dispatcha addItem action med varan som payload
-        console.log(`Lade till "${item.name}" i varukorgen`); // Valfri logg
+        dispatch(addItem(item)); 
+        console.log(`Lade till "${item.name}" i varukorgen`); 
     };
     if (!items || items.length === 0) {
-        return null; // Renderar inget om det inte finns några objekt
+        return null; 
     }
     
     return (
@@ -25,7 +25,7 @@ function MenuItemList({ title, items, price }: MenuItemListProps) {
             <div className={styles.header}>
                 <h3>{title}</h3>
                 <span className={styles.divider}></span>
-                {price !== undefined && <h5>{price} kr</h5>}
+                {price !== undefined && <h5>{price} SEK</h5>}
             </div>
             <div className={styles.btnContainer}>
                 {items.map((item) => (

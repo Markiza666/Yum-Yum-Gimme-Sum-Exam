@@ -6,10 +6,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); // Mörk bakgrund när korgen är öppen
     display: flex;
-    justify-content: flex-end; // Justera position vid behov (t.ex. högerkant)
-    z-index: 1000; // Se till att den ligger över annat innehåll
+    justify-content: flex-end; 
+    z-index: 1000;
 }
 
 .cartContainer {
@@ -64,7 +63,6 @@
             
         .menuItemsWrapper {
             flex-grow: 1; 
-            // overflow-y: auto;
             list-style: none;
             padding: 0;
             margin: 0;
@@ -72,63 +70,60 @@
             .menuItemRow {
                 color: global.$dark-grey;
                 display: flex;
-                justify-content: space-between;
-
-                .removeButton {
-                    background: none;
-                    border: 1px solid red; // Exempel styling
-                    color: red;
-                    border-radius: 50%;
-                    width: 20px;
-                    height: 20px;
-                    font-size: 0.8rem;
-                    padding: 0;
-                    margin-right: 0.5rem;
-                    cursor: pointer;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 1rem;
 
                 h5 {
                     margin: 0;
-                    flex-grow: 1; // Låt namnet ta upp plats
                     font-size: 1rem;
                 }
 
-                .quantityControls {
+                .priceAndControls {
                     display: flex;
-                    align-items: center;
-                    margin: 0 0.5rem;
+                    align-items: center; 
+                    gap: 10px;
 
-                    button {
-                        background: #eee; // Exempel styling
-                        border: 1px solid #ccc;
-                        width: 25px;
-                        height: 25px;
+                    .quantityControls {
                         display: flex;
-                        justify-content: center;
                         align-items: center;
-                        cursor: pointer;
-                        padding: 0;
-                        font-size: 1rem;
+                        justify-content: center;
+                        margin: 0 ;
+
+                        button {
+                            border: 1px solid global.$secondary-color;
+                            width: 25px;
+                            height: 25px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer;
+                            padding: 0;
+                            font-size: 1rem;
+                            border-radius: 50%;
+                            margin-bottom: 0;
+                        }
+
+                        span {
+                            margin: 0 0.5rem;
+                            font-weight: bold;
+                        }
                     }
 
-                    span {
-                        margin: 0 0.5rem;
+                    .price {
                         font-weight: bold;
+                        white-space: nowrap;
+                        width: 70px; 
+                        padding-right: 0;
+                        text-align: right;
                     }
                 }
 
                 .divider {
                 flex-grow: 1;
                 border-bottom: 2px dotted global.$dark-grey;
-                margin: 0 10px;
-                }
-
-                .price {
-                    font-weight: bold;
-                    white-space: nowrap; // Förhindra radbrytning på priset
+                margin: 1rem 5px 0;
                 }
             }
 
@@ -142,28 +137,22 @@
                 border-bottom: 2px dotted global.$dark-grey;
                 padding-right: 10px;
             }
-
-            // .divider {
-            //     flex-grow: 1;
-            //     border-bottom: 2px dotted global.$dark-grey;
-            //     margin: 0 10px;
-            // }
         }
 
         .emptyCartMessage {
             text-align: center;
             padding: 2rem;
-            color: #555;
+            color: global.$secondary-color;
         }
 
         .totalLine {
             background-color: global.$light-grey;
-            color: global.$snow-color;
+            color: global.$dark-grey;
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
+            padding: 1rem;
             border-radius: .2rem;
         }
 

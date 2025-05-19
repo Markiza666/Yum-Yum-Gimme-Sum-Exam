@@ -25,14 +25,6 @@ const cartSlice = createSlice({
                 });
             }
         },
-        removeItem: (state, action: PayloadAction<number>) => {
-            state.items = state.items.filter(item => item.id !== action.payload);
-            // if (existingItem && existingItem.quantity > 1) {
-            //     existingItem.quantity -= 1;
-            // } else {
-            //     state.items = state.items.filter((item) => item.id !== action.payload);
-            // }
-        },
         incrementQuantity: (state, action: PayloadAction<number>) => {
         const existingItem = state.items.find(item => item.id === action.payload);
         if (existingItem) {
@@ -44,19 +36,18 @@ const cartSlice = createSlice({
             const existingItem = state.items.find(item => item.id === action.payload);
             if (existingItem) {
                 existingItem.quantity--;
-                // Om antalet blir 0 eller mindre, ta bort varan
+                // Om antalet blir 0 eller mindre, tar bort varan
                 if (existingItem.quantity <= 0) {
                 state.items = state.items.filter(item => item.id !== action.payload);
                 }
             }
         },
-        // (Valfritt) Action för att tömma varukorgen
         clearCart: (state) => {
         state.items = [];
         },
     },
 });
 
-export const { addItem, removeItem, incrementQuantity, decrementQuantity, clearCart } = cartSlice.actions;
+export const { addItem, incrementQuantity, decrementQuantity, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
