@@ -26,10 +26,10 @@ const cartSlice = createSlice({
             }
         },
         incrementQuantity: (state, action: PayloadAction<number>) => {
-        const existingItem = state.items.find(item => item.id === action.payload);
-        if (existingItem) {
-            existingItem.quantity++;
-        }
+            const existingItem = state.items.find(item => item.id === action.payload);
+            if (existingItem) {
+                existingItem.quantity++;
+            }
         },
         // Action för att minska antalet av en vara
         decrementQuantity: (state, action: PayloadAction<number>) => {

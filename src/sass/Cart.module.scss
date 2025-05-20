@@ -24,26 +24,6 @@
     max-width: 375px;
     overflow-y: auto;
 
-    .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 2rem 1rem 1rem 1rem;
-
-        .closeButton {
-            background: none;
-            font-size: 2rem;
-            margin-bottom: 0;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cartIcon { 
-            width: 2rem;
-            height: 2rem;
-        }
-    }
-
     hr {
         margin: 1rem 0;
         color: global.$ash-color;

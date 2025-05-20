@@ -1,118 +1,65 @@
-import { MdClose } from "react-icons/md";
-import cart from '../../assets/img/korg.svg';
 import styles from "../../sass/Cart.module.scss";
 import { CustomButton } from "../button/CustomButton";
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCartItems, selectTotalPrice } from '../../features/cart/cartSelectors';
-import { incrementQuantity, decrementQuantity, clearCart } from '../../features/cart/cartSlice';
-import { CartItem } from "../../utils/interfaces";
+import { ApiComArgs, apiCom } from "../../service/api/api";
 
 import { useNavigate } from 'react-router-dom';     // Hooken för navigering.
-
-interface CartProps {
-    onClose: () => void;
-}
-
-// Ny hjälpkomponent för en rad i varukorgen
-interface CartItemRowProps {
-    item: CartItem;
-}
-
-function CartItemRow({ item }: CartItemRowProps) {
-    const dispatch = useDispatch();
-
-    const handleIncrement = () => {
-        dispatch(incrementQuantity(item.id));
-    };
-
-    const handleDecrement = () => {
-        dispatch(decrementQuantity(item.id));
-    };
-
-    return (
-        <li className={styles.menuItemRow}>
-            <h5>{item.name}</h5>
-            <span className={styles.divider}></span>
-            <div className={styles.priceAndControls}>
-                <div className={styles.quantityControls}>
-                    <CustomButton onClick={handleDecrement} aria-label={`Minska antal av ${item.name}`}>-</CustomButton>
-                    <span>{item.quantity}</span>
-                    <CustomButton onClick={handleIncrement} aria-label={`Öka antal av ${item.name}`}>+</CustomButton>
-                </div>
-                <h5 className={styles.price}>
-                    {(item.price * item.quantity).toLocaleString('sv-SE', {
-                    minimumFractionDigits: 0, // Tar bort .00 för heltal
-                    maximumFractionDigits: 2  // Behåller upp till 2 decimaler om de finns
-                })}SEK
-                </h5>
-            </div>
-        </li>
-    );
-}
-
+import { useTenantId } from "../../service/hooks/useTenantId";
+import { useApiKey } from "../../service/hooks/useApiKey";
+import { CartProps, OrderResponse } from "../../utils/interfaces";
+import { clearCart } from "../../features/cart/cartSlice";
+import { CartItemRow } from "./CartItemRow";
+import { HeaderCart } from "../header/HeaderCart";
+// import { VarContext } from "../../service/context/VarContext";
+// import { useState } from "react";
 
 export function Cart({ onClose }: CartProps) {
+    const cartTenantId: string = useTenantId();
+    const cartApiKey: string = useApiKey();
+    // const [dtStart, setDtStart] = useState<string>('0');
+    // const [orderId, setOrderId] = useState<string>('');
+
     const cartItems = useSelector(selectCartItems);
     const totalPrice = useSelector(selectTotalPrice);
     const dispatch = useDispatch(); 
     const navigate = useNavigate();
 
-    const handlePayClick = () => {
-        console.log('Handling payment for total:', totalPrice);
+    async function handlePayClick() {
+        const itemsToSend : Array<number> = [];
+        cartItems.forEach(item => {
+            for (let i = 0; i < item.quantity; i++) {
+                itemsToSend.push(item.id);
+            }
+        });
+        
+        const apiComArgs: ApiComArgs = {
+            urlExtension: '/' + cartTenantId + '/orders',
+            apiMethod: 'POST',
+            key: '' + cartApiKey,
+            requestBody: {
+                "items": itemsToSend,
+            }
 
-        console.log("Simulating payment processing...");
+        };
+        
         try {
-            // Här kan du t.ex. skicka varukorgens innehåll till en backend-endpoint
-            // const response = await fetch('/api/place-order', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify({ items: cartItems, total: totalPrice }),
-            // });
+            const response: OrderResponse = await apiCom(apiComArgs) as OrderResponse;
+            dispatch(clearCart());
+            onClose(); 
 
-            // if (!response.ok) {
-            //     throw new Error('Order placement failed');
-            // }
+            navigate('/order', { state: { eta: response.order.eta, orderId: response.order.id } });
 
-            // const orderConfirmation = await response.json(); // Få t.ex. ett order-ID
-
-            // --- STEG 2: Om betalningen lyckas ---
-
-            console.log("Payment successful (simulated).");
-
-            // Rensa varukorgen i Redux store
-            dispatch(clearCart()); // Antag att du har lagt till en clearCart action i din slice
-
-            onClose();
-            // Navigera till OrderStatus-sidan
-            // Du kan eventuellt skicka med data till OrderStatus-sidan via state
-            // navigate('/orderstatus', { state: { orderId: orderConfirmation.id } });
-            navigate('/order'); // Enkel navigering utan state
         } catch (error) {
-            console.error("Error during payment processing:", error);
-            // Hantera fel, t.ex. visa ett felmeddelande för användaren
+            console.error("Error placing order:", error);
             alert("Kunde inte slutföra beställningen. Vänligen försök igen.");
         }
-};
-
-
+    }
     return (
         <div className={styles.cartOverlay} onClick={onClose}> 
             <div className={styles.cartContainer} onClick={(e) => e.stopPropagation()}>
-                <header className={styles.header}>
-                    <CustomButton className={styles.closeButton}
-                        onClick={onClose}
-                        aria-label="Stäng varukorgen"
-                    >
-                        <MdClose />
-                    </CustomButton>
-                    <img
-                        className={styles.cartIcon} 
-                        src={cart}
-                        alt="Varukorg"
-                    />
-                </header>
-
+                <HeaderCart onClose={onClose} />
                 <main className={styles.orderContainer}>
                     <hr />
                     <ul className={styles.menuItemsWrapper}>

@@ -49,10 +49,31 @@ export interface CartState {
     items: CartItem[];
 }
 
+export interface CartProps {
+    onClose: () => void;
+}
+
+// Ny hjälpkomponent för en rad i varukorgen
+export interface CartItemRowProps {
+    item: CartItem;
+}
+
 export interface ICuctomButtonProps {
     children: ReactNode;
     onClick: () => void;
     className?: string;
     styles?: typeof styles; 
     disabled?: boolean;
+}
+
+export interface OrderDetails {
+    id?: string;
+    eta: string; // This is the string from the API
+    status?: string;
+    totalPrice?: number;
+}
+
+export interface OrderResponse {
+    order: OrderDetails;
+    message?: string;
 }

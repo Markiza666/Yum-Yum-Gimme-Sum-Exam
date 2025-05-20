@@ -26,66 +26,6 @@ export function Receipt() {
                                 <span className={styles.divider}></span>
                                 <h5 className={styles.price }>5 kr</h5>
                             </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
-                            <li className={styles.menuItemRow}>
-                                <h5>Item Name</h5>
-                                <span className={styles.divider}></span>
-                                <h5 className={styles.price }>5 kr</h5>
-                            </li>
                         </ul>
                         
                         <hgroup className={styles.totalLine}>

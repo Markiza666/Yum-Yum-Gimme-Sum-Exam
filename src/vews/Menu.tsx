@@ -9,7 +9,7 @@ import { apiCom, ApiComArgs } from '../service/api/api';
 import { useApiKey } from '../service/hooks/useApiKey';
 
 function Menu() {
-    const apiKey = useApiKey();
+    const apiKey: string = useApiKey();
 
     const [wontonMenu, setWontonMenu] = useState<WontonItem[]>([]);
     const [drinkMenu, setDrinkMenu] = useState<MenuItem[]>([]);
