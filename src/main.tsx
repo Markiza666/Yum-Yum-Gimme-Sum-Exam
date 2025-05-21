@@ -10,7 +10,6 @@ import store from './app/store';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* Wrappa RouterProvider med Provider och skicka med din store */}
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>

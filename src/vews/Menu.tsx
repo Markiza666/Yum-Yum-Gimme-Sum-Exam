@@ -5,11 +5,14 @@ import MenuItemList from '../components/menu/MenuItemList';
 import styles from '../sass/Menu.module.scss'
 import Header from '../components/header/Header';
 import { Cart } from '../components/cart/Cart';
-import { apiCom, ApiComArgs } from '../service/api/api';
-import { useApiKey } from '../service/hooks/useApiKey';
+import { performApiCom } from '../service/api/api';
+import { useApiKey } from '../app/hooks/useApiKey';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useAppDispatch } from '../app/hooks/useAppDispatch';
 
 function Menu() {
     const apiKey: string = useApiKey();
+    const dispatch = useAppDispatch();
 
     const [wontonMenu, setWontonMenu] = useState<WontonItem[]>([]);
     const [drinkMenu, setDrinkMenu] = useState<MenuItem[]>([]);
@@ -19,17 +22,22 @@ function Menu() {
 
     useEffect(() => {
         async function getMenu() {
-            const menuArgs: ApiComArgs = {
-                urlExtension: 'menu', 
+            if (!apiKey) return;
+
+            const menuArgs = {
+                urlExtension: 'menu',
                 apiMethod: 'GET',
                 key: apiKey
             };
             try {
-                const apiMenu = await apiCom(menuArgs) as WholeMenu;
+                const resultAction = await dispatch(performApiCom(menuArgs));
+                const apiMenu = unwrapResult(resultAction) as WholeMenu;
+
                 const workMenu: MenuItem[] = apiMenu.items;
                 const workWontonMenu: WontonItem[] = [];
                 const workDrinkMenu: MenuItem[] = [];
                 const workDipMenu: MenuItem[] = [];
+
                 for (const x in workMenu) {
                     if (workMenu[x].type === 'wonton' && workMenu[x].ingredients) {
                         const ingredients: string = workMenu[x].ingredients.join(', ');
@@ -40,7 +48,7 @@ function Menu() {
                             description: workMenu[x].description,
                             price: workMenu[x].price,
                             ingredients: ingredients
-                        } 
+                        }
                         workWontonMenu.push(pushWonton);
                     }
                     if (workMenu[x].type === 'drink') {
@@ -54,13 +62,18 @@ function Menu() {
                 setDrinkMenu(workDrinkMenu);
                 setDipMenu(workDipMenu);
 
-            }catch (error) {
-                console.error('Fel vid hämtning av meny: ', error);
+            } catch (error: unknown) {
+                if (typeof error === 'string') {
+                    console.error('Fel vid hämtning av meny:', error);
+                } else if (error instanceof Error) {
+                    console.error('Fel vid hämtning av meny:', error.message);
+                } else {
+                    console.error('Ett okänt fel inträffade vid hämtning av meny.');
+                }
             }
-            
         }
         getMenu();
-    },[apiKey]);
+    }, [apiKey, dispatch]);
 
     return (
         <div className={styles.appContainer}>
@@ -69,7 +82,7 @@ function Menu() {
                 <h1>MENY</h1>
                 <WontonSection wontonMenu={wontonMenu} />
                 <MenuItemList title="DIPSÅS" items={dipMenu} price={dipMenu[0]?.price} />
-                <MenuItemList title="Drinks" items={drinkMenu} price={dipMenu[0]?.price} />
+                <MenuItemList title="Drinks" items={drinkMenu} price={drinkMenu[0]?.price} />
             </main>
             {cartOpen && <Cart onClose={() => setCartOpen(false)} />}
         </div>

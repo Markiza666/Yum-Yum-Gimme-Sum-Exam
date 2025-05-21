@@ -1,6 +1,22 @@
 import { ReactNode } from "react";
 import styles from '../../sass/CustomButton.module.scss';
 
+export interface ApiKey {
+    key: string;
+}
+
+export interface ApiComArgs {
+    urlExtension: string;
+    apiMethod: string;
+    key: string;
+    requestBody?: object;
+}
+
+export interface BadRequestError {
+    status: 400;
+    message: string;
+}
+
 export interface MenuItem {
     id: number;
     type: string;
@@ -53,7 +69,6 @@ export interface CartProps {
     onClose: () => void;
 }
 
-// Ny hjälpkomponent för en rad i varukorgen
 export interface CartItemRowProps {
     item: CartItem;
 }
@@ -68,7 +83,7 @@ export interface ICuctomButtonProps {
 
 export interface OrderDetails {
     id?: string;
-    eta: string; // This is the string from the API
+    eta: string; 
     status?: string;
     totalPrice?: number;
 }

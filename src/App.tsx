@@ -1,58 +1,79 @@
 import { useEffect, useState } from 'react';
 import './sass/global.scss';
-import { ApiComArgs, ApiKey, getKey, apiCom } from './service/api/api';
-import { VarContext } from './service/context/VarContext';
+import { fetchApiKey, performApiCom } from './service/api/api';
+import { BadRequestError } from './utils/interfaces';
+import { VarContext } from './app/context/VarContext';
 import { Outlet } from 'react-router-dom';
-// import Menu from './vews/Menu';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from './app/store'; 
+import { unwrapResult } from '@reduxjs/toolkit'; 
 
 export const tenantName: string = 'Yum';
 
 function App() {
-  const [useableApiKey, setUseableApiKey] = useState<string | null>(null);    // Variabel för att spara api nyckel
-  const [tenantId, setTenantID] = useState<string>('k7b3');   // Variabel för att spara tenantId
+  const [useableApiKey, setUseableApiKey] = useState<string | null>(null);
+  const [tenantId, setTenantID] = useState<string>('k7b3');
+  const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {   // Hämtar api nyckel för sessionen och lägger den i variabeln
+  useEffect(() => {
     async function initApiKey() {
-      const response: ApiKey = await getKey();
-
-      const hamtadKey = response.key;
-      setUseableApiKey(hamtadKey);
+      try {
+        const resultAction = await dispatch(fetchApiKey());
+        const response = unwrapResult(resultAction); // Hanterar resolved action
+        setUseableApiKey(response.key);
+      } catch (error: unknown) { // Använder 'unknown' för att sedan typ-skydda
+        if (typeof error === 'string') {
+          console.error('Fel vid hämtning av API-nyckel:', error);
+        } else if (error instanceof Error) {
+          console.error('Fel vid hämtning av API-nyckel:', error.message);
+        } else {
+          console.error('Ett okänt fel inträffade vid hämtning av API-nyckel.');
+        }
+      }
     }
-
-    
     initApiKey();
-  }, []); // Tom array = kör bara en gång vid komponentens montering
-  
-  useEffect(() => {   // Skapar ett tenantId för tenantName, kontrollerar om det redan finns och laddar från localStorage i så fall(om det redan finns). API-servern ger "Bad Request", 400 om tenantName redan är registrerat.
+  }, [dispatch]);
+
+  useEffect(() => {
     async function createMyTenant() {
-      const tenantArgs: ApiComArgs= {
+      if (!useableApiKey) return; // Väntar tills API-nyckeln är tillgänglig
+
+      const tenantArgs = {
         urlExtension: 'tenants',
         apiMethod: 'POST',
-        key: useableApiKey as string,
+        key: useableApiKey,
         requestBody: {
           "name": tenantName
-        } 
-      }
+        }
+      };
 
-      const response: object = await apiCom(tenantArgs);      
-      for (const [key, value] of Object.entries(response)) {
-        if (key === 'status' && value === 400) {
-            const tName = localStorage.getItem('TenantName');
-            if(tName === tenantName) {
-              setTenantID(localStorage.getItem('TenantID') as string);
-            } else if (tName === null) {
-              localStorage.setItem('TenantName', tenantName);
-              localStorage.setItem('TenantID', tenantId); 
-            }
-        } else if (key === 'id') {
-          setTenantID(value);
-          localStorage.setItem("TenantID", value);
+      try {
+        const resultAction = await dispatch(performApiCom(tenantArgs));
+        const response = unwrapResult(resultAction); // Hanterar resolved action
+
+        if ('id' in response) { // Kontrollerar om 'id' finns i svaret
+          setTenantID(response.id as string);
+          localStorage.setItem("TenantID", response.id as string);
           localStorage.setItem('TenantName', tenantName);
+        }
+      } catch (error: unknown) { 
+        if (typeof error === 'object' && error !== null && 'status' in error && (error as BadRequestError).status === 400) {
+          const badRequestError = error as BadRequestError; 
+          console.warn('Tenant redan registrerad:', badRequestError.message);
+          const tName = localStorage.getItem('TenantName');
+          if (tName === tenantName) {
+            setTenantID(localStorage.getItem('TenantID') as string);
+          } else if (tName === null) {
+            localStorage.setItem('TenantName', tenantName);
+            localStorage.setItem('TenantID', tenantId); 
+          }
+        } else {
+          console.error('Fel vid skapande/hämtning av tenant:', error);
         }
       }
     }
     createMyTenant();
-  }, [tenantId, useableApiKey]);
+  }, [tenantId, useableApiKey, dispatch]);
 
   if (useableApiKey === null) {
     return <div>Laddar...</div>;
@@ -62,10 +83,9 @@ function App() {
     <VarContext.Provider value={[useableApiKey, tenantId]}>
       <div>
         <Outlet />
-        {/* <Menu /> */}
       </div>
     </VarContext.Provider>
-  )
+  );
 }
 
 export default App;

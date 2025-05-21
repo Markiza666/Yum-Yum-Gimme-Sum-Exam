@@ -16,7 +16,7 @@ export function OrderStatus() {
     }
     
     const showReceipt = () => {
-        navigate('/receipt');
+        navigate('/receipt', { state: { orderId: orderId } });
     }
     const etaMinutes: string = (Math.floor((Date.parse((new Date(eta)).toString()) - Date.now()) / 60000).toString());
     const etaMin: number = parseInt(etaMinutes);
@@ -33,7 +33,10 @@ export function OrderStatus() {
 
                     <section className={styles.info}>
                         <h2>DINA WONTONS TILLAGAS!</h2>
-                        <h5>ETA: {DeliveryTimer({minutes: etaMin})}</h5>
+                        <hgroup>
+                            ETA  
+                            {DeliveryTimer({minutes: etaMin})}
+                        </hgroup>
                         <p>{orderId}</p>
                     </section>
 
