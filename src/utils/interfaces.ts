@@ -92,3 +92,19 @@ export interface OrderResponse {
     order: OrderDetails;
     message?: string;
 }
+
+export interface ReceiptData {
+    receipt: {
+        id: string;
+        items: ReceiptItem[];
+        orderValue: number;
+        timestamp: string;
+    }
+};
+export interface ReceiptItem {
+    id: number;
+    name: string;
+    type: string;
+    quantity: number;
+    price: number;
+}

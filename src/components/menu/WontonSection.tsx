@@ -27,9 +27,9 @@ function WontonSection({ wontonMenu }: WontonSectionProps) {
                     key={item.id} 
                     onClick={() => handleItemClick(item)} 
                     aria-label={`Lägg till ${item.name} i varukorgen`} // Tillgänglighet
-                    role="button" // Markerar elementet som klickbart för tillgänglighet
-                    tabIndex={0} // Gör det möjligt att fokusera med tangentbordet
-                    onKeyPress={(e) => { // Gör det möjligt att aktivera med Enter/Space
+                    role="button" // Tillgänglighet: markerar elementet som klickbart för tillgänglighet
+                    tabIndex={0} // Tillgänglighet: gör det möjligt att fokusera med tangentbordet
+                    onKeyPress={(e) => { // Tillgänglighet: gör det möjligt att aktivera med Enter/Space
                         if (e.key === 'Enter' || e.key === ' ') {
                             handleItemClick(item);
                         }

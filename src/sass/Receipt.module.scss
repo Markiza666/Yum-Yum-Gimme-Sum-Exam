@@ -11,6 +11,8 @@
     margin: 0 auto;
     box-sizing: border-box; 
     position: relative;
+    display: flex;
+    flex-direction: column;
 
     .receiptContainer {
         color: global.$snow-color;
@@ -18,16 +20,23 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        flex-grow: 1;
+        overflow: hidden;
+        margin-bottom: 120px; 
         
         .receiptSection {
             background-color: global.$ash-color;
             width: 100%;
             border-radius: .2rem;
-            padding-bottom: 120px;
+            display: flex; 
+            flex-direction: column;
+            flex-grow: 1; 
+            overflow: auto;
 
             .box {
                 width: 100%;
                 text-align: center;
+                flex-shrink: 0;
     
                 img {
                     width: 15%;
@@ -41,24 +50,34 @@
                 flex-direction: column;
                 align-items: center;
                 gap: 1rem;
-                position: relative;
+                height: 100%;
     
                 hgroup {
                     h3, p {
+                        padding-bottom: .5rem;
                         color: global.$dark-grey;
                         text-align: center;
                     }
+                    flex-shrink: 0;
                 }
                 
                 .menuItemsWrapper {
                     margin: 0 1rem;
+                    padding: 0 1rem;
                     flex-grow: 1;
                     overflow-y: auto;
+                    width: 100%;
             
                     .menuItemRow {
+                        padding: .5rem 0;
                         color: global.$dark-grey;
                         display: flex;
                         justify-content: space-between;
+                        hgroup {
+                            pre {
+                                text-align: left;
+                            }
+                        }
                     }
         
                     .menuItemRow h5:first-child::after {
@@ -75,27 +94,25 @@
                     .divider {
                         flex-grow: 1;
                         border-bottom: 2px dotted global.$dark-grey;
-                        margin: 0 10px;
+                        margin: 0 10px 1rem 10px;
                     }
                 }
         
                 .totalLine {
-                    position: absolute;
-                    bottom: 0;
-                    flex-shrink: 0; // Förhindra att totalraden krymper
-                    background-color: global.$shade-color;
-                    opacity: 0.8;
-                    width: 100%; // Säkerställ att den tar hela bredden inuti .info
-                    display: flex; // Behåll flex för att arrangera innehållet i totalraden
+                    margin-top: auto;
+                    flex-shrink: 0;
+                    color:  global.$dark-grey;
+                    background-color: global.$light-grey;
+                    width: 100%; 
+                    display: flex; 
                     justify-content: space-between;
                     align-items: center;
-                    padding: 1rem 1.5rem;
+                    padding: 1rem;
                     border-radius: .2rem;
-                }
-    
-                h2 {
-                    text-align: center;
-                    line-height: 120%;
+
+                    .totalLineMoms {
+                        text-align: left;
+                    }
                 }
             }
         }

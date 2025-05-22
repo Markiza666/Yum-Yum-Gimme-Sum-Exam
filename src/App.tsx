@@ -46,29 +46,31 @@ function App() {
           "name": tenantName
         }
       };
-
-      try {
+      const tName = localStorage.getItem('TenantName');
+      if (!tName){
+        try {
         const resultAction = await dispatch(performApiCom(tenantArgs));
-        const response = unwrapResult(resultAction); // Hanterar resolved action
+        const response = unwrapResult(resultAction); 
 
         if ('id' in response) { // Kontrollerar om 'id' finns i svaret
           setTenantID(response.id as string);
           localStorage.setItem("TenantID", response.id as string);
           localStorage.setItem('TenantName', tenantName);
         }
-      } catch (error: unknown) { 
-        if (typeof error === 'object' && error !== null && 'status' in error && (error as BadRequestError).status === 400) {
-          const badRequestError = error as BadRequestError; 
-          console.warn('Tenant redan registrerad:', badRequestError.message);
-          const tName = localStorage.getItem('TenantName');
-          if (tName === tenantName) {
-            setTenantID(localStorage.getItem('TenantID') as string);
-          } else if (tName === null) {
-            localStorage.setItem('TenantName', tenantName);
-            localStorage.setItem('TenantID', tenantId); 
+        } catch (error: unknown) { 
+          if (typeof error === 'object' && error !== null && 'status' in error && (error as BadRequestError).status === 400) {
+            const badRequestError = error as BadRequestError; 
+            console.warn('Tenant redan registrerad:', badRequestError.message);
+            const tName = localStorage.getItem('TenantName');
+            if (tName === tenantName) {
+              setTenantID(localStorage.getItem('TenantID') as string);
+            } else if (tName === null) {
+              localStorage.setItem('TenantName', tenantName);
+              localStorage.setItem('TenantID', tenantId); 
+            }
+          } else {
+            console.error('Fel vid skapande/hämtning av tenant:', error);
           }
-        } else {
-          console.error('Fel vid skapande/hämtning av tenant:', error);
         }
       }
     }
