@@ -12,11 +12,7 @@ export const router = createBrowserRouter([
         errorElement: <Error />,
         children: [
             {
-                index: true, 
-                element: <App />
-            },
-            {
-                path: '/menu',
+                index: true,
                 element: <Menu />
             },
             {
