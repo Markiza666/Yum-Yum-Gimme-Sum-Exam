@@ -19,7 +19,7 @@ function NavLinks({ onClose }: NavLinksProps) {
             </button>
             <ul>
                 <li>
-                    <Link to="/menu">Menu</Link>
+                    <Link to="/">Menu</Link>
                 </li>
                 <li>
                     <Link to="/order">OrderStatus</Link>

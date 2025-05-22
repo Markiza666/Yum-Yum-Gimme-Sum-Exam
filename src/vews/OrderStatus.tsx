@@ -32,7 +32,7 @@ export function OrderStatus() {
         localStorage.removeItem('lastOrderId');
         setEta(null);
         setOrderId(null);
-        navigate('/menu');
+        navigate('/');
     }
     
     const showReceipt = () => {

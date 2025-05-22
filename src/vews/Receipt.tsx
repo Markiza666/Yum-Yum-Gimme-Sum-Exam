@@ -28,7 +28,7 @@ export function Receipt() {
     const handleNeworderClick = () => {
         localStorage.removeItem('lastOrderId'); 
         setOrderId(null); 
-        navigate('/menu');
+        navigate('/');
     }
 
     useEffect(() => {
