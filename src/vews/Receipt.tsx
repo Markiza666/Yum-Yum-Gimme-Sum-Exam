@@ -14,19 +14,29 @@ import { ReceiptData, ReceiptItem } from '../utils/interfaces';
 export function Receipt() {
     const location = useLocation();
     const navigate = useNavigate();
-    const orderId = location.state?.orderId;
-    const receiptApiKey = useApiKey();
     const dispatch = useDispatch<AppDispatch>();
+
+    const initialOrderId = location.state?.orderId || localStorage.getItem('lastOrderId');
+    const [orderId, setOrderId] = useState<string | null>(initialOrderId);
+
+    const receiptApiKey = useApiKey(); 
 
     const [receiptData, setReceiptData] = useState<ReceiptData | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const handleNeworderClick = () => {
+        localStorage.removeItem('lastOrderId'); 
+        setOrderId(null); 
         navigate('/menu');
     }
 
     useEffect(() => {
+        if (location.state?.orderId && location.state.orderId !== localStorage.getItem('lastOrderId')) {
+            localStorage.setItem('lastOrderId', location.state.orderId);
+            setOrderId(location.state.orderId);
+        }
+
         if (orderId) {
             async function fetchReceipt() {
                 setLoading(true);
@@ -50,20 +60,16 @@ export function Receipt() {
                         errorMessage = "Kunde inte hämta kvittot: " + error.message;
                     }
                     setError(errorMessage);
-                    alert(errorMessage);
                 } finally {
                     setLoading(false);
                 }
             }
             fetchReceipt();
         } else {
-            const errorMessage = "Order ID finns inte med i location state. Vänligen försök igen.";
-            console.error(errorMessage);
-            setError(errorMessage);
-            alert(errorMessage);
             setLoading(false);
+            setError("Ingen order att visa kvitto för.");
         }
-    }, [orderId, receiptApiKey, dispatch]);
+    }, [orderId, receiptApiKey, dispatch, location.state?.orderId]); 
 
     if (loading) {
         return (
@@ -76,39 +82,29 @@ export function Receipt() {
         );
     }
 
-    if (error) {
+    if (error || !receiptData) {
         return (
             <div className={styles.appContainer}>
                 <Header hideVarukorg={true} onCartClick={() => {}} />
                 <main className={styles.receiptContainer}>
-                    <p>{error}</p>
-                    <nav className={styles.buttons}>
-                        <CustomButton
-                            className={styles.receiptBtn}
-                            onClick={() => handleNeworderClick()}
-                        >
-                            <h5>GÖR EN NY BESTÄLLNING</h5>
-                        </CustomButton>
-                    </nav>
-                </main>
-            </div>
-        );
-    }
-
-    if (!receiptData) {
-        return (
-            <div className={styles.appContainer}>
-                <Header hideVarukorg={true} onCartClick={() => {}} />
-                <main className={styles.receiptContainer}>
-                    <p>Ingen kvittoinformation tillgänglig.</p>
-                    <nav className={styles.buttons}>
-                        <CustomButton
-                            className={styles.receiptBtn}
-                            onClick={() => handleNeworderClick()}
-                        >
-                            <h5>GÖR EN NY BESTÄLLNING</h5>
-                        </CustomButton>
-                    </nav>
+                    <section className={styles.noReceiptSection}>
+                        <figure className={styles.box}>
+                            <img
+                                src={logoRed}
+                                alt="Red logotyp"
+                            />
+                        </figure>
+                        <h2>{error || "Ingen kvittoinformation tillgänglig."}</h2>
+                        <p>Det verkar inte finnas något kvitto att visa. Gör en ny beställning för att få dina wontons!</p>
+                        <nav className={styles.buttons}>
+                            <CustomButton
+                                className={styles.receiptBtn}
+                                onClick={() => handleNeworderClick()}
+                            >
+                                <h5>GÖR EN NY BESTÄLLNING</h5>
+                            </CustomButton>
+                        </nav>
+                    </section>
                 </main>
             </div>
         );
