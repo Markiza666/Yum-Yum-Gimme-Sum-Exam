@@ -2,7 +2,7 @@
 
 A modern and user-friendly web application designed for easily ordering delicious wontons! Developed with React, Redux Toolkit, and React Router to provide a seamless ordering experience.
 
-🌟 Features
+## 🌟 **Features**
 
 * Menu Overview: Browse a dynamic menu featuring various wontons and side dishes.
 * Intuitive Shopping Cart: Effortlessly add, adjust quantities, and remove products.
@@ -11,7 +11,7 @@ A modern and user-friendly web application designed for easily ordering deliciou
 * Digital Receipt: View and verify your receipt directly within the app after placing an order.
 * Local Storage: Manages the last placed order and tenant information using localStorage for an enhanced user experience.
 
-🛠️ Technologies
+## 🛠️ **Technologies**
 
 * [React](https://reactjs.org/)
 * [TypeScript](https://www.typescriptlang.org/)
@@ -22,7 +22,8 @@ A modern and user-friendly web application designed for easily ordering deliciou
 * Custom API communication service (`service/api/api.ts`)
 * `localStorage`
   
-🚀 Getting Started
+## 🚀 **Getting Started**
+
 Follow these steps to get Wonton Express up and running on your local machine.
 
 ## Prerequisites
@@ -33,14 +34,14 @@ Follow these steps to get Wonton Express up and running on your local machine.
 
 ## Installation
 
-1. Clone the repository:
+1. **Clone the repository**:
   
     ```bash
     git clone <YOUR REPO URL>
     cd <YOUR REPO NAME>
     ```
 
-2. Install dependencies:
+2. **Install dependencies**:
   
     ```bash
     npm install
@@ -63,13 +64,15 @@ npm start
 yarn start
 # or
 pnpm start
+```
 
 The application should then build and open in your web browser, usually at http://localhost:3000.
 
+## 📂 **Project Structure**
 
-📂 Project Structure
 The project follows a standard structure for React applications with TypeScript:
 
+```bash
 Yum-Yum-Gimme-Sum-Exam/
 ├── public/                     # Static assets
 ├── src/
@@ -100,8 +103,10 @@ Yum-Yum-Gimme-Sum-Exam/
 ├── README.md
 ├── tsconfig.json
 └── vite.config.ts
+```
 
-💡 Contributing
+## 💡 **Contributing**
+
 All contributions are welcome! If you have suggestions for improvements, find bugs, or want to add new features, don't hesitate to open an issue or submit a pull request.
 
 Fork this repository.
