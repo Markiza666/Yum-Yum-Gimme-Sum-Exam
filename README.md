@@ -66,7 +66,7 @@ yarn start
 pnpm start
 ```
 
-The application should then build and open in your web browser, usually at http://localhost:3000.
+The application should then build and open in your web browser, usually at: [http://localhost:3000](http://localhost:3000).
 
 ## 📂 **Project Structure**
 
@@ -74,7 +74,7 @@ The project follows a standard structure for React applications with TypeScript:
 
 ```bash
 Yum-Yum-Gimme-Sum-Exam/
-├── public/                     # Static assets
+├── node_modules/                     
 ├── src/
 │   ├── app/                    # Redux store, hooks, and global context
 │   │   ├── hooks/
