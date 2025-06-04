@@ -1,20 +1,17 @@
 # Yum Menu & Ordering App
 
-This is a web application built with React and TypeScript to display a menu, manage a shopping cart, and simulate ordering/receipt processes by interacting with an external API server. The application handles API key management and tenant registration.
+A modern and user-friendly web application designed for easily ordering delicious wontons! Developed with React, Redux Toolkit, and React Router to provide a seamless ordering experience.
 
-## Features
+🌟 Features
 
-* Fetches and displays menu data from an API.
-* Organizes the menu into different sections (Wontons, Dips, Drinks) based on data from the API.
-* Includes a shopping cart to add menu items (cart contents are likely managed in the Redux store).
-* Navigation between different views: Menu, Order Status, and Receipt using React Router.
-* Automatic fetching of an API key for the session upon application startup.
-* Automatic registration of a tenant named "Yum" with the API, and reuse of the tenant ID if already saved locally.
-* Basic error handling for API calls, etc.
-* Uses React Context to make the API key and tenant ID available throughout the component tree.
-* Styling using SASS Modules.
+* Menu Overview: Browse a dynamic menu featuring various wontons and side dishes.
+* Intuitive Shopping Cart: Effortlessly add, adjust quantities, and remove products.
+* Smooth Ordering Process: Send your order to the API and receive a unique order number along with an estimated time of arrival (ETA).
+* Order Status: Track your order with a clear and concise order status page.
+* Digital Receipt: View and verify your receipt directly within the app after placing an order.
+* Local Storage: Manages the last placed order and tenant information using localStorage for an enhanced user experience.
 
-## Technologies
+🛠️ Technologies
 
 * [React](https://reactjs.org/)
 * [TypeScript](https://www.typescriptlang.org/)
@@ -24,6 +21,9 @@ This is a web application built with React and TypeScript to display a menu, man
 * [SASS](https://sass-lang.com/) (both global styles and CSS Modules)
 * Custom API communication service (`service/api/api.ts`)
 * `localStorage`
+  
+🚀 Getting Started
+Follow these steps to get Wonton Express up and running on your local machine.
 
 ## Prerequisites
 
@@ -64,61 +64,50 @@ yarn start
 # or
 pnpm start
 
-
 The application should then build and open in your web browser, usually at http://localhost:3000.
 
-Project Structure
+
+📂 Project Structure
 The project follows a standard structure for React applications with TypeScript:
 
-.
-├── public/           # Static files (e.g., index.html)
-├── src/              # Source code
-│   ├── app/          # Redux store and related files
-│   │   └── store.ts  # Redux store configuration
-│   ├── components/   # Reusable UI components (e.g., button, card, header, cart)
+Yum-Yum-Gimme-Sum-Exam/
+├── public/                     # Static assets
+├── src/
+│   ├── app/                    # Redux store, hooks, and global context
+│   │   ├── hooks/
+│   │   ├── context/
+│   │   └── store.ts
+│   ├── assets/                 # Images and other static assets
+│   ├── components/             # Reusable UI components
+│   │   ├── button/
 │   │   ├── cart/
-│   │   ├── header/
+│   │   └── header/
+│   ├── features/               # Redux slices for specific functionality (e.g., cart, menu)
+│   │   ├── cart/
 │   │   └── menu/
-│   ├── service/      # Services, hooks, context for logic (API calls, data handling)
-│   │   ├── api/      # API communication logic
-│   │   ├── context/  # React Context definitions (e.g., VarContext)
-│   │   └── hooks/    # Custom React hooks (e.g., useApiKey)
-│   ├── sass/         # SASS files for styling (global styles, modules)
-│   ├── vews/         # Views/Pages (top-level components for the router)
-│   │   ├── Error.tsx       # Error handling page
-│   │   ├── Menu.tsx        # Menu page
-│   │   ├── OrderStatus.tsx # Order status page
-│   │   └── Receipt.tsx     # Receipt page
-│   ├── utils/        # Utility functions, types/interfaces, etc.
-│   │   └── interfaces.ts   # (Assumed file based on imports in Menu.tsx)
-│   ├── App.tsx       # Main App component (handles API key, tenant, routing via Outlet)
-│   ├── index.tsx     # Application entry point
-│   └── router.ts     # React Router configuration
-├── .gitignore        # Files ignored by Git
-├── package.json      # Project dependencies and scripts
-├── tsconfig.json     # TypeScript configuration
-└── README.md         # This file
+│   ├── service/                # API communication
+│   │   └── api/
+│   ├── sass/                   # Global Sass styles
+│   ├── utils/                  # Types (interfaces), helper functions
+│   ├── vews/                   # Main views/pages (e.g., Menu, OrderStatus, Receipt)
+│   ├── App.tsx                 # Main component
+│   ├── Error.tsx               # Error view
+│   ├── main.tsx                # Application entry point
+│   └── router.ts               # React Router configuration
+├── .gitignore
+├── index.html
+├── package.json
+├── README.md
+├── tsconfig.json
+└── vite.config.ts
 
-src/vews/: Contains components that represent entire pages or views in the application, rendered by react-router-dom based on the URL.
-src/components/: Contains smaller, reusable UI elements and parts that build up the views.
-src/service/: Contains logic not directly tied to the UI, such as API calls, managing global state via Context, and custom hooks to simplify access to data/functions.
-Redux (in src/app/): Likely used to manage the application's global state, such as the contents of the shopping cart, which needs to be accessible across different views/components.
-Context API (VarContext): Used to efficiently pass down the API key and tenant ID to components deep in the component tree without prop drilling.
-API Interactions
-The application interacts with the following API endpoints based on the provided code:
+💡 Contributing
+All contributions are welcome! If you have suggestions for improvements, find bugs, or want to add new features, don't hesitate to open an issue or submit a pull request.
 
-GET /key: Fetches an API key for the session.
-POST /tenants: Attempts to register a tenant with the name "Yum". Handles the case where the tenant already exists by loading its ID from localStorage to avoid creating duplicates.
-GET /menu: Fetches the menu items for the current tenant using the retrieved API key.
-Note: The address of the API server must be configured separately in the code (see "Installation").
+Fork this repository.
+Create a new branch: git checkout -b feature/your-feature-name
+Make your changes and commit them: git commit -m 'Add your feature'
+Push to the branch: git push origin feature/your-feature-name
+Create a Pull Request.
 
-Further Development / Contributing
-If you wish to contribute to the project, please follow these steps:
-
-Fork the repository. 2. Create a new branch (git checkout -b feature/your-feature-name).
-Make your changes and ensure the code follows the project's style (if any).
-Test your changes thoroughly.
-Commit your changes with a clear message (git commit -m 'Add new feature: brief description').
-Push to your branch (git push origin feature/your-feature-name).
-Create a Pull Request to the main repository.
 This README provides a good overview for anyone looking to understand, install, or contribute to your project. Good luck!

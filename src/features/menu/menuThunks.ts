@@ -11,8 +11,8 @@ export const fetchMenu = createAsyncThunk<
     async (_, { dispatch, rejectWithValue }) => {
         console.log("fetchMenu Called");
         try {
-            const apiKeyResult = await dispatch(fetchApiKey());
-            const newApiKey = (apiKeyResult.payload as { key: string }).key;
+            const apiKeyAction = await dispatch(fetchApiKey());
+            const newApiKey = (apiKeyAction.payload as string); 
 
             const getMenuArgs: ApiComArgs = {
                 urlExtension: 'menu',
@@ -21,17 +21,17 @@ export const fetchMenu = createAsyncThunk<
             };
 
             const apiDataResult = await dispatch(performApiCom(getMenuArgs));
-            const apiData = apiDataResult.payload as MenuApiResponse;
+            const apiData = apiDataResult.payload as MenuApiResponse; 
 
             console.log("API Response: ", apiData);
             return apiData.items;
 
         } catch (error: unknown) {
             console.error("Fetch Menu Error: ", error);
-            if (typeof error === 'string') {
-                return rejectWithValue(error);
-            } else if (error && typeof error === 'object' && 'message' in error && typeof (error as { message: string }).message === 'string') {
+            if (error && typeof error === 'object' && 'message' in error && typeof (error as { message: string }).message === 'string') {
                 return rejectWithValue((error as { message: string }).message); 
+            } else if (typeof error === 'string') {
+                return rejectWithValue(error);
             } else {
                 return rejectWithValue('Ett okänt fel uppstod vid hämtning av menyn.');
             }
