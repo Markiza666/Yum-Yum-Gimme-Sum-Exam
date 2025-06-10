@@ -9,7 +9,6 @@ export const fetchMenu = createAsyncThunk<
 >(
     'menu/fetchMenu', 
     async (_, { dispatch, rejectWithValue }) => {
-        console.log("fetchMenu Called");
         try {
             const apiKeyAction = await dispatch(fetchApiKey());
             const newApiKey = (apiKeyAction.payload as string); 
@@ -23,7 +22,6 @@ export const fetchMenu = createAsyncThunk<
             const apiDataResult = await dispatch(performApiCom(getMenuArgs));
             const apiData = apiDataResult.payload as MenuApiResponse; 
 
-            console.log("API Response: ", apiData);
             return apiData.items;
 
         } catch (error: unknown) {

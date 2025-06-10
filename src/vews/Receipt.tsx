@@ -19,14 +19,14 @@ export function Receipt() {
     const initialOrderId = location.state?.orderId || localStorage.getItem('lastOrderId');
     const [orderId, setOrderId] = useState<string | null>(initialOrderId);
 
-    const receiptApiKey = useApiKey(); 
+    const receiptApiKey = useApiKey();  // <-- Hämtar API-nyckeln
 
     const [receiptData, setReceiptData] = useState<ReceiptData | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const handleNeworderClick = () => {
-        localStorage.removeItem('lastOrderId'); 
+        localStorage.removeItem('lastOrderId');  // <-- Rensar lagrad orderId
         setOrderId(null); 
         navigate('/');
     }
@@ -44,10 +44,10 @@ export function Receipt() {
                 const apiComArgs = {
                     urlExtension: '/receipts/' + orderId,
                     apiMethod: 'GET',
-                    key: '' + receiptApiKey,
+                    key: '' + receiptApiKey,  // <-- Använder API-nyckeln
                 };
                 try {
-                    const resultAction = await dispatch(performApiCom(apiComArgs));
+                    const resultAction = await dispatch(performApiCom(apiComArgs));  // <-- API-anrop för kvitto
                     const response = unwrapResult(resultAction) as ReceiptData;
                     console.log('Receipt data:', response);
                     setReceiptData(response); 
@@ -137,7 +137,7 @@ export function Receipt() {
                                         <pre>{item.quantity} stycken</pre>
                                     </hgroup>
                                     <span className={styles.divider}></span>
-                                    <h5 className={styles.price }>{item.price * item.quantity} SEK</h5>
+                                    <h5 className={styles.price }>{item.price} SEK</h5>
                                 </li>
                             ))}
                         </ul>

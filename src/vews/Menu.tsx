@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { WontonItem, MenuItem, WholeMenu } from '../utils/interfaces';
+import { WontonItem, MenuItem } from '../utils/interfaces';
 import WontonSection from '../components/menu/WontonSection';
 import MenuItemList from '../components/menu/MenuItemList';
 import styles from '../sass/Menu.module.scss'
 import Header from '../components/header/Header';
 import { Cart } from '../components/cart/Cart';
-import { performApiCom } from '../service/api/api';
-import { useApiKey } from '../app/hooks/useApiKey';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { useAppDispatch } from '../app/hooks/useAppDispatch';
+import { useSelector } from 'react-redux'; 
+import { fetchMenu } from '../features/menu/menuThunks'; 
+import { RootState } from '../app/store';
 
 function Menu() {
-    const apiKey: string = useApiKey();
     const dispatch = useAppDispatch();
 
     const [wontonMenu, setWontonMenu] = useState<WontonItem[]>([]);
@@ -20,69 +19,52 @@ function Menu() {
 
     const [cartOpen, setCartOpen] = useState(false);
 
+    const fullMenu = useSelector((state: RootState) => state.menu.items); // <-- Hämta menyn från Redux
+
     useEffect(() => {
-        async function getMenu() {
-            if (!apiKey) return;
+        dispatch(fetchMenu()); // <-- Dispatchar den dedikerade thunken
+    }, [dispatch]);
 
-            const menuArgs = {
-                urlExtension: 'menu',
-                apiMethod: 'GET',
-                key: apiKey
-            };
-            try {
-                const resultAction = await dispatch(performApiCom(menuArgs));
-                const apiMenu = unwrapResult(resultAction) as WholeMenu;
+    useEffect(() => {
+        if (fullMenu && fullMenu.length > 0) {
+            const workWontonMenu: WontonItem[] = [];
+            const workDrinkMenu: MenuItem[] = [];
+            const workDipMenu: MenuItem[] = [];
 
-                const workMenu: MenuItem[] = apiMenu.items;
-                const workWontonMenu: WontonItem[] = [];
-                const workDrinkMenu: MenuItem[] = [];
-                const workDipMenu: MenuItem[] = [];
-
-                for (const x in workMenu) {
-                    if (workMenu[x].type === 'wonton' && workMenu[x].ingredients) {
-                        const ingredients: string = workMenu[x].ingredients.join(', ');
-                        const pushWonton: WontonItem = {
-                            id: workMenu[x].id,
-                            type: workMenu[x].type,
-                            name: workMenu[x].name,
-                            description: workMenu[x].description,
-                            price: workMenu[x].price,
-                            ingredients: ingredients
-                        }
-                        workWontonMenu.push(pushWonton);
+            for (const x in fullMenu) {
+                if (fullMenu[x].type === 'wonton' && fullMenu[x].ingredients) {
+                    const ingredients: string = fullMenu[x].ingredients.join(', ');
+                    const pushWonton: WontonItem = {
+                        id: fullMenu[x].id,
+                        type: fullMenu[x].type,
+                        name: fullMenu[x].name,
+                        description: fullMenu[x].description,
+                        price: fullMenu[x].price,
+                        ingredients: ingredients
                     }
-                    if (workMenu[x].type === 'drink') {
-                        workDrinkMenu.push(workMenu[x]);
-                    }
-                    if (workMenu[x].type === 'dip') {
-                        workDipMenu.push(workMenu[x]);
-                    }
+                    workWontonMenu.push(pushWonton);
                 }
-                setWontonMenu(workWontonMenu);
-                setDrinkMenu(workDrinkMenu);
-                setDipMenu(workDipMenu);
-
-            } catch (error: unknown) {
-                if (typeof error === 'string') {
-                    console.error('Fel vid hämtning av meny:', error);
-                } else if (error instanceof Error) {
-                    console.error('Fel vid hämtning av meny:', error.message);
-                } else {
-                    console.error('Ett okänt fel inträffade vid hämtning av meny.');
+                if (fullMenu[x].type === 'drink') {
+                    workDrinkMenu.push(fullMenu[x]);
+                }
+                if (fullMenu[x].type === 'dip') {
+                    workDipMenu.push(fullMenu[x]);
                 }
             }
+            setWontonMenu(workWontonMenu);
+            setDrinkMenu(workDrinkMenu);
+            setDipMenu(workDipMenu);
         }
-        getMenu();
-    }, [apiKey, dispatch]);
+    }, [fullMenu]); // <-- Sorterar menyn när Redux-tillståndet uppdateras
 
     return (
         <div className={styles.appContainer}>
             <Header onCartClick={() => setCartOpen(true)} />
             <main className={styles.menuContainer}>
                 <h1>MENY</h1>
-                <WontonSection wontonMenu={wontonMenu} />
-                <MenuItemList title="DIPSÅS" items={dipMenu} price={dipMenu[0]?.price} />
-                <MenuItemList title="Drinks" items={drinkMenu} price={drinkMenu[0]?.price} />
+                {wontonMenu.length > 0 && <WontonSection wontonMenu={wontonMenu} />}
+                {dipMenu.length > 0 && <MenuItemList title="DIPSÅS" items={dipMenu} price={dipMenu[0]?.price} />}
+                {drinkMenu.length > 0 && <MenuItemList title="DRYCK" items={drinkMenu} price={drinkMenu[0]?.price} />}
             </main>
             {cartOpen && <Cart onClose={() => setCartOpen(false)} />}
         </div>

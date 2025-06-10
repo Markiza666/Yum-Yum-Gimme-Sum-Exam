@@ -13,25 +13,21 @@ export function OrderStatus() {
     const initialEta = location.state?.eta;
     const initialOrderId = location.state?.orderId;
 
-    const [eta, setEta] = useState(initialEta || localStorage.getItem('lastOrderEta'));
-    const [orderId, setOrderId] = useState(initialOrderId || localStorage.getItem('lastOrderId'));
+    const [eta, setEta] = useState(initialEta || localStorage.getItem('lastOrderEta')); // <-- Hämtar från localStorage
+    const [orderId, setOrderId] = useState(initialOrderId || localStorage.getItem('lastOrderId')); // <-- Hämtar från localStorage
 
     useEffect(() => {
         if (initialEta) {
-            localStorage.setItem('lastOrderEta', initialEta);
+            localStorage.setItem('lastOrderEta', initialEta); // <-- Sparar till localStorage
             setEta(initialEta);
         }
         if (initialOrderId) {
-            localStorage.setItem('lastOrderId', initialOrderId);
+            localStorage.setItem('lastOrderId', initialOrderId); // <-- Sparar till localStorage
             setOrderId(initialOrderId);
         }
     }, [initialEta, initialOrderId]);
 
     const handleNewOrderClick = () => {
-        localStorage.removeItem('lastOrderEta');
-        localStorage.removeItem('lastOrderId');
-        setEta(null);
-        setOrderId(null);
         navigate('/');
     }
     

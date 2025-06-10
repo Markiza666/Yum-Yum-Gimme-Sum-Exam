@@ -32,8 +32,8 @@ export interface MenuApiResponse {
 
 export interface MenuState {
     items: MenuItem[];
-    loading: boolean;
-    error: string | null;
+    loading: boolean | string;
+    error?: string | null;
 }
 
 export interface WontonItem {

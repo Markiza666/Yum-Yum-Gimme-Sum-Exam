@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fetchMenu } from './menuThunks'; 
 import { MenuItem, MenuState,  } from '../../utils/interfaces';
 
 const initialState: MenuState = {
@@ -11,21 +12,22 @@ const menuSlice = createSlice({
     name: 'menu',
     initialState,
     reducers: {
-        fetchMenuStart: (state) => {
-            state.loading = true;
-            state.error = null;
-        },
-        fetchMenuSuccess: (state, action: PayloadAction<MenuItem[]>) => {
-            console.log("Fetch Menu Success Payload: ", action.payload);
-            state.items = action.payload;
-            state.loading = false;
-        },
-        fetchMenuFailure: (state, action: PayloadAction<string>) => {
-            state.loading = false;
-            state.error = action.payload;
-        },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchMenu.pending, (state) => {
+                state.loading = 'Pending';
+                state.error = null;
+            })
+            .addCase(fetchMenu.fulfilled, (state, action: PayloadAction<MenuItem[]>) => {
+                state.loading = 'succeeded';
+                state.items = action.payload; // <-- Här lagras menyn i Redux state
+            })
+            .addCase(fetchMenu.rejected, (state, action) => {
+                state.loading = 'failed';
+                state.error = action.payload as string; // Eller action.error.message beroende på rejectValue
+            });
     },
 });
 
-export const { fetchMenuStart, fetchMenuSuccess, fetchMenuFailure } = menuSlice.actions;
 export default menuSlice.reducer;

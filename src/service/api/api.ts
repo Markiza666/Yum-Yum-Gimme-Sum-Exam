@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const baseUrl: string = 'https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com';
 
-export const fetchApiKey = createAsyncThunk<ApiKey, void, { rejectValue: string }>(
+export const fetchApiKey = createAsyncThunk<ApiKey, void, { rejectValue: string }>(  // <-- För att hämta unika API-nyckel
     'api/fetchApiKey',
     async (_, { rejectWithValue }) => {
         try {
@@ -25,7 +25,7 @@ export const fetchApiKey = createAsyncThunk<ApiKey, void, { rejectValue: string 
     }
 );
 
-export const performApiCom = createAsyncThunk<object, ApiComArgs, { rejectValue: object | string }>(
+export const performApiCom = createAsyncThunk<object, ApiComArgs, { rejectValue: object | string }>(    // <-- Återanvänder för alla API-anrop
     'api/performApiCom',
     async (apiComArgs, { rejectWithValue }) => {
         try {
@@ -33,7 +33,7 @@ export const performApiCom = createAsyncThunk<object, ApiComArgs, { rejectValue:
                 method: apiComArgs.apiMethod,
                 url: `${baseUrl}/${apiComArgs.urlExtension}`,
                 headers: {
-                    'x-zocom': apiComArgs.key
+                    'x-zocom': apiComArgs.key // <-- Använder API-nyckeln
                 },
                 data: apiComArgs.requestBody,
             };
