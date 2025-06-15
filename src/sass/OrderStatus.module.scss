@@ -10,13 +10,21 @@
     width: 375px;
     margin: 0 auto;
     box-sizing: border-box; 
-    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
     .orderStatContainer {
         color: global.$snow-color;
         margin: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-grow: 1;
+        overflow: hidden;
         
         article {
+            height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -34,10 +42,9 @@
             .info {
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
                 align-items: center;
                 gap: 1rem;
-                margin-bottom: 2rem;
+                height: 100%;
 
                 h2 {
                     text-align: center;

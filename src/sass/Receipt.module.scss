@@ -20,7 +20,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        flex-grow: 1;
+        // flex-grow: 1;
         overflow: hidden;
         margin-bottom: 120px; 
 
@@ -143,20 +143,9 @@
             display: flex; 
             flex-direction: column;
 
-            .orderBtn {
-                width: 100%;
-                background-color: global.$dark-grey;
-                color: global.$snow-color;
-                padding: 1.5rem;
-                border-radius: .2rem;
-                margin-bottom: 1rem;
-                border: none;
-                visibility: hidden;
-            }
-
             .receiptBtn {
                 width: 100%;
-                background-color: transparent;
+                background-color: global.$dark-grey;
                 color: global.$snow-color;
                 padding: 1.5rem;
                 border-radius: .2rem;
