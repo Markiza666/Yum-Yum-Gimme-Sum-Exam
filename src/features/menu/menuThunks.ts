@@ -1,22 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchApiKey, performApiCom } from '../../service/api/api'; 
+import {  performApiCom } from '../../service/api/api'; 
 import { ApiComArgs, MenuApiResponse } from '../../utils/interfaces';
 
 export const fetchMenu = createAsyncThunk<
     MenuApiResponse['items'], 
-    void, 
+    string, 
     { rejectValue: string } 
 >(
     'menu/fetchMenu', 
-    async (_, { dispatch, rejectWithValue }) => {
+    async (apiKey, { dispatch, rejectWithValue }) => {
         try {
-            const apiKeyAction = await dispatch(fetchApiKey());
-            const newApiKey = (apiKeyAction.payload as string); 
-
             const getMenuArgs: ApiComArgs = {
                 urlExtension: 'menu',
                 apiMethod: 'GET',
-                key: newApiKey,
+                key: apiKey
             };
 
             const apiDataResult = await dispatch(performApiCom(getMenuArgs));

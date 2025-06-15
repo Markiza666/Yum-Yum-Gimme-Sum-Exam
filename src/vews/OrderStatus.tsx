@@ -10,19 +10,19 @@ export function OrderStatus() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const initialEta = location.state?.eta;
-    const initialOrderId = location.state?.orderId;
+    const initialEta = location.state?.eta; // <-- Hämtar ETA från medskickad state om det finns
+    const initialOrderId = location.state?.orderId; // <-- Hämtar OrderID från medskickad state om det finns
 
-    const [eta, setEta] = useState(initialEta || localStorage.getItem('lastOrderEta')); // <-- Hämtar från localStorage
-    const [orderId, setOrderId] = useState(initialOrderId || localStorage.getItem('lastOrderId')); // <-- Hämtar från localStorage
+    const [eta, setEta] = useState(initialEta || localStorage.getItem('lastOrderEta')); // <-- Hämtar från localStorage om inte initialEta finns
+    const [orderId, setOrderId] = useState(initialOrderId || localStorage.getItem('lastOrderId')); // <-- Hämtar från localStorage om inte initialOrderId finns
 
     useEffect(() => {
         if (initialEta) {
-            localStorage.setItem('lastOrderEta', initialEta); // <-- Sparar till localStorage
+            localStorage.setItem('lastOrderEta', initialEta); // <-- Sparar till localStorage om det finns initialEta
             setEta(initialEta);
         }
         if (initialOrderId) {
-            localStorage.setItem('lastOrderId', initialOrderId); // <-- Sparar till localStorage
+            localStorage.setItem('lastOrderId', initialOrderId); // <-- Sparar till localStorage om det finns initialOrderId
             setOrderId(initialOrderId);
         }
     }, [initialEta, initialOrderId]);

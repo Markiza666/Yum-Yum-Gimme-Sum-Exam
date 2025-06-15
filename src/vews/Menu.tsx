@@ -9,9 +9,11 @@ import { useAppDispatch } from '../app/hooks/useAppDispatch';
 import { useSelector } from 'react-redux'; 
 import { fetchMenu } from '../features/menu/menuThunks'; 
 import { RootState } from '../app/store';
+import { useApiKey } from '../app/hooks/useApiKey';
 
 function Menu() {
     const dispatch = useAppDispatch();
+    const apiKey = useApiKey();
 
     const [wontonMenu, setWontonMenu] = useState<WontonItem[]>([]);
     const [drinkMenu, setDrinkMenu] = useState<MenuItem[]>([]);
@@ -22,8 +24,8 @@ function Menu() {
     const fullMenu = useSelector((state: RootState) => state.menu.items); // <-- Hämta menyn från Redux
 
     useEffect(() => {
-        dispatch(fetchMenu()); // <-- Dispatchar den dedikerade thunken
-    }, [dispatch]);
+        dispatch(fetchMenu(apiKey)); // <-- Dispatchar den dedikerade thunken
+    }, [apiKey, dispatch]);
 
     useEffect(() => {
         if (fullMenu && fullMenu.length > 0) {

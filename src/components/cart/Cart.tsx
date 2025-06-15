@@ -45,7 +45,7 @@ export function Cart({ onClose }: CartProps) {
             const resultAction = await dispatch(performApiCom(apiComArgs));
             const response = unwrapResult(resultAction) as OrderResponse;
 
-            dispatch(clearCart());
+            dispatch(clearCart());  // Tömmer varukorgen efter beställning
             onClose();
 
             navigate('/order', { state: { eta: response.order.eta, orderId: response.order.id } });
